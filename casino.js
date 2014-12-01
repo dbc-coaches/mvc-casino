@@ -63,8 +63,7 @@ var Casino = Casino || {} // Namespacing to Casino object
             return diceTemplate
         },
         render: function(dice) {
-            this.diceContainer.empty()
-            this.diceContainer.append(this.compileDiceTemplate(dice))
+            this.diceContainer.html(this.compileDiceTemplate(dice))
         }
     }
 
