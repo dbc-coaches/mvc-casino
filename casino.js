@@ -33,7 +33,8 @@ var Casino = Casino || {} // Namespacing to Casino object
         },
         rollDice: function() {
             // Alternatively use array methods for-in loop, .forEach, or Underscore
-            for (var index = 0; index < this.dice.length; index++) {
+            var index, diceCount = this.dice.length
+            for (index = 0; index < diceCount; index++) {
                 var die = this.dice[index]
                 die.roll()
             }
@@ -56,7 +57,8 @@ var Casino = Casino || {} // Namespacing to Casino object
         },
         compileDiceTemplate: function(dice) {
             var diceTemplate = ""
-            for (var index = 0; index < dice.length; index++) {
+            var index, diceCount = dice.length
+            for (index = 0; index < diceCount; index++) {
                 var die = dice[index]
                 diceTemplate += this.dieTemplate(die.value)
             }
