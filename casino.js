@@ -12,37 +12,38 @@ var Casino = Casino || {} // Namespacing to Casino object
         this.value = this._generateRandomValue() // Underscore for 'protected'/'local' methods
     }
 
-    Die.prototype = {
-        roll: function() {
-            this.value = this._generateRandomValue()
-        },
-        // Helper Methods
-        _generateRandomValue: function() {
-            return Math.floor((Math.random() * this.SIDE_COUNT) + 1)
-        }
+    Die.prototype.roll = function() {
+        this.value = this._generateRandomValue()
     }
+    
+    // Helper Methods
+    Die.prototype._generateRandomValue = function() {
+        return Math.floor((Math.random() * this.SIDE_COUNT) + 1)
+    }
+
 
     function Game(DieFactory) {
         this.DieFactory = DieFactory
         this.dice = []
     }
 
-    Game.prototype = {
-        addDie: function() {
-            this.dice.push(new this.DieFactory())
-        },
-        rollDice: function() {
-            // Alternatively use array methods for-in loop, .forEach, or Underscore
-            var index, diceCount = this.dice.length
-            for (index = 0; index < diceCount; index++) {
-                var die = this.dice[index]
-                die.roll()
-            }
-        },
-        clearDice: function() {
-            this.dice = []
+    Game.prototype.addDie = function() {
+        this.dice.push(new this.DieFactory())
+    }
+
+    Game.prototype.rollDice = function() {
+        // Alternatively use array methods for-in loop, .forEach, or Underscore
+        var index, diceCount = this.dice.length
+        for (index = 0; index < diceCount; index++) {
+            var die = this.dice[index]
+            die.roll()
         }
     }
+    
+    Game.prototype.clearDice = function() {
+        this.dice = []
+    }
+
 
     // Views
     function Display() {
@@ -51,22 +52,22 @@ var Casino = Casino || {} // Namespacing to Casino object
         this.diceContainer = $(this.DICE_CONTAINER_NAME)
     } 
 
-    Display.prototype = {
-        dieTemplate: function(value) {
-            return "<div class=\'"+ this.DIE_CLASS_NAME +"\'>"+ value +"</div>"
-        },
-        compileDiceTemplate: function(dice) {
-            var diceTemplate = ""
-            var index, diceCount = dice.length
-            for (index = 0; index < diceCount; index++) {
-                var die = dice[index]
-                diceTemplate += this.dieTemplate(die.value)
-            }
-            return diceTemplate
-        },
-        render: function(dice) {
-            this.diceContainer.html(this.compileDiceTemplate(dice))
+    Display.prototype.dieTemplate = function(value) {
+        return "<div class=\'"+ this.DIE_CLASS_NAME +"\'>"+ value +"</div>"
+    }
+    
+    Display.prototype.compileDiceTemplate = function(dice) {
+        var diceTemplate = ""
+        var index, diceCount = dice.length
+        for (index = 0; index < diceCount; index++) {
+            var die = dice[index]
+            diceTemplate += this.dieTemplate(die.value)
         }
+        return diceTemplate
+    }
+
+    Display.prototype.render = function(dice) {
+        this.diceContainer.html(this.compileDiceTemplate(dice))
     }
 
     // Controllers
@@ -75,48 +76,51 @@ var Casino = Casino || {} // Namespacing to Casino object
         this.display = display
     }
 
-    Dealer.prototype = {
-        start: function() {
-            this.bindEventListeners()
-        },
-        addDie: function() {
-            this.game.addDie()
-            this.updateView()
-        },
-        rollDice: function() {
-            this.game.rollDice()
-            this.updateView()
-        },
-        clearDice: function() {
-            this.game.clearDice()
-            this.updateView()
-        },
-        updateView: function() {
-            this.display.render(this.game.dice)
-        },
-        bindEventListeners: function() {
-            // Two options for managing scope
-            // 1. self, _this, that
-            // 2. Bind (as implemented)
+    Dealer.prototype.start = function() {
+        this.bindEventListeners()
+    }
 
-            // var self = this
-            // $('.add').on('click', function() {
-            //     self.addDie()
-            // })
+    Dealer.prototype.addDie = function() {
+        this.game.addDie()
+        this.updateView()
+    }
 
-            // $('.roll').on('click', function() {
-            //     self.rollDice()
-            // })
+    Dealer.prototype.rollDice = function() {
+        this.game.rollDice()
+        this.updateView()
+    }
 
-            // $('.clear').on('click', function() {
-            //     self.clearDice()
-            // })
+    Dealer.prototype.clearDice = function() {
+        this.game.clearDice()
+        this.updateView()
+    }
 
-            // OR 2. Bind
-            $('.add').on('click', this.addDie.bind(this))
-            $('.roll').on('click', this.rollDice.bind(this))
-            $('.clear').on('click', this.clearDice.bind(this))
-        }
+    Dealer.prototype.updateView = function() {
+        this.display.render(this.game.dice)
+    }
+
+    Dealer.prototype.bindEventListeners = function() {
+        // Two options for managing scope
+        // 1. self, _this, that
+        // 2. Bind (as implemented)
+
+        // var self = this
+        // $('.add').on('click', function() {
+        //     self.addDie()
+        // })
+
+        // $('.roll').on('click', function() {
+        //     self.rollDice()
+        // })
+
+        // $('.clear').on('click', function() {
+        //     self.clearDice()
+        // })
+
+        // OR 2. Bind
+        $('.add').on('click', this.addDie.bind(this))
+        $('.roll').on('click', this.rollDice.bind(this))
+        $('.clear').on('click', this.clearDice.bind(this))
     }
 
     // Model Declarations
