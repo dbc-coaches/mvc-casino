@@ -1,7 +1,7 @@
 <html>
 	<head>
     <title>Casino Challenge</title>
-    <link rel="stylesheet" type="text/css" href="casino.css">
+	   <link rel="stylesheet" type="text/css" href="styles/casino.css">
 	</head>
 	<body>
     <button class="add">Add Die</button>
@@ -9,7 +9,18 @@
     <button class="clear">Pick 'em Up</button>
     <div class="dice"></div>
 
-		<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-		<script type="text/javascript" src="casino.js"></script>
+	<script src="js/libs/jquery.min.js"></script>
+
+  <!-- Models -->
+  <script type="text/javascript" src="js/die.js"></script>
+  <script type="text/javascript" src="js/game.js"></script>
+  
+  <!-- Views -->
+  <script type="text/javascript" src="js/display.js"></script>
+
+  <!-- Controllers -->
+  <script type="text/javascript" src="js/dealer.js"></script>
+  
+	<script type="text/javascript" src="js/casino.js"></script>
 	</body>
 </html>
